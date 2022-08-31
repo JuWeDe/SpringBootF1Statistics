@@ -1,7 +1,6 @@
 package ru.badin.springbootf1webservice.model;
 
 import javax.persistence.*;
-import java.lang.reflect.Constructor;
 
 @Entity(name = "teams")
 public class Team {

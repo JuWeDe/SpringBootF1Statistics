@@ -13,10 +13,10 @@ public class Car {
     private String name;
     private String engine;
 
-
     private int hp;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     Team team;
 
     public Team getTeam() {
