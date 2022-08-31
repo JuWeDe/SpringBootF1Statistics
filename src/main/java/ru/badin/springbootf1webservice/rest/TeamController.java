@@ -1,6 +1,6 @@
 package ru.badin.springbootf1webservice.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Team;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;

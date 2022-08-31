@@ -30,7 +30,9 @@ public class RacerController {
     @DeleteMapping("/remove_racer_by_id/{id}")
     void deleteRacer(@PathVariable Long id) {
         Racer racer = rp.findById(id).get();
-        rp.delete(racer);
+        if (rp.findById(id).isPresent()) {
+            rp.delete(racer);
+        }
     }
 
     @PutMapping("/update_racer/{id}")

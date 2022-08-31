@@ -2,8 +2,7 @@ package ru.badin.springbootf1webservice.rest;
 
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Car;
-import ru.badin.springbootf1webservice.model.Racer;
-import ru.badin.springbootf1webservice.model.Team;
+
 import ru.badin.springbootf1webservice.repostory.CarRepository;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
@@ -35,7 +34,11 @@ public class CarController {
     @DeleteMapping("/remove_car_by_id/{id}")
     void deleteCar(@PathVariable Long id) {
         Car car = cr.findById(id).get();
-        cr.delete(car);
+        if (cr.findById(id).isPresent())
+        {
+            cr.delete(car);
+        }
+
     }
 
     @PutMapping("/update_car/{id}")
@@ -69,6 +72,7 @@ public class CarController {
         car.setName(name);
         car.setHp(hp);
         car.setEngine(engine);
+
 
         return cr.save(car);
 
