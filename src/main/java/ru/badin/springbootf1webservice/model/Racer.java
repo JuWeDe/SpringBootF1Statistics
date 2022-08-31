@@ -21,16 +21,14 @@ public class Racer {
 
     @ManyToOne
     private Team team;
-        public Team getTeam() {
+
+    public Team getTeam() {
         return team;
     }
 
     public void setTeam(Team team) {
         this.team = team;
     }
-
-
-
 
 
     public Double getPointsInSeason() {
@@ -40,7 +38,6 @@ public class Racer {
     public void setPointsInSeason(Double pointsInSeason) {
         this.pointsInSeason = pointsInSeason;
     }
-
 
 
     public Long getId() {

@@ -17,10 +17,6 @@ public class Team {
     private String teamPrinciple;
 
 
-
-
-
-
     public Long getCarId() {
         return carId;
     }
@@ -52,7 +48,6 @@ public class Team {
     public void setPointsInSeason(Double pointsInSeason) {
         this.pointsInSeason = pointsInSeason;
     }
-
 
 
     public String getTeamPrinciple() {

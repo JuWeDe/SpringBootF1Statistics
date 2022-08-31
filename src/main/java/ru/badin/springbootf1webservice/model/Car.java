@@ -14,7 +14,6 @@ public class Car {
     private String engine;
 
 
-
     private int hp;
 
     @OneToOne
@@ -43,9 +42,6 @@ public class Car {
     public void setName(String name) {
         this.name = name;
     }
-
-
-
 
 
     public int getHp() {
