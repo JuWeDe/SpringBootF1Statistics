@@ -11,23 +11,30 @@ public class Car {
     private Long id;
 
     private String name;
-    private Long teamId;
+    private String engine;
+
+
+
     private int hp;
 
-    @ManyToOne
-    private Team team;
-
-
-
+    @OneToOne
+    Team team;
 
     public Team getTeam() {
         return team;
     }
 
+    public String getEngine() {
+        return engine;
+    }
+
+    public void setEngine(String engine) {
+        this.engine = engine;
+    }
+
     public void setTeam(Team team) {
         this.team = team;
     }
-
 
     public String getName() {
         return name;
@@ -37,14 +44,9 @@ public class Car {
         this.name = name;
     }
 
-    public Long getTeamId() {
-        return teamId;
-    }
 
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
-    }
+
 
     public int getHp() {
         return hp;

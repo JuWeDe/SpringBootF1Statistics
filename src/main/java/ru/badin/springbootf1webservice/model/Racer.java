@@ -17,8 +17,8 @@ public class Racer {
     private int championships;
     private Double points;
     private Double pointsInSeason;
-    private int teamID;
-/*
+
+
     @ManyToOne
     private Team team;
         public Team getTeam() {
@@ -29,12 +29,9 @@ public class Racer {
         this.team = team;
     }
 
- */
 
 
-    public int getTeamID() {
-        return teamID;
-    }
+
 
     public Double getPointsInSeason() {
         return pointsInSeason;
@@ -44,9 +41,6 @@ public class Racer {
         this.pointsInSeason = pointsInSeason;
     }
 
-    public void setTeamID(int teamID) {
-        this.teamID = teamID;
-    }
 
 
     public Long getId() {

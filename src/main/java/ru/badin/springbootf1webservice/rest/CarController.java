@@ -1,13 +1,13 @@
 package ru.badin.springbootf1webservice.rest;
 
-/*
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Car;
+import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.model.Team;
 import ru.badin.springbootf1webservice.repostory.CarRepository;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -21,23 +21,41 @@ public class CarController {
         this.tr = tr;
     }
 
+    @GetMapping("get_car_by_id/{id}")
+    Iterable<Car> getCarById(@PathVariable Long id) {
+        return cr.findAllById(Collections.singleton(id));
+    }
+
     @GetMapping("/get_cars")
     Iterable<Car> getCars() {
         return cr.findAll();
     }
 
 
-    @DeleteMapping("/remove_by_id/{id}")
+    @DeleteMapping("/remove_car_by_id/{id}")
     void deleteCar(@PathVariable Long id) {
-        cr.deleteById(id);
+        Car car = cr.findById(id).get();
+        cr.delete(car);
     }
 
     @PutMapping("/update_car/{id}")
     public Car updateCar(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
+
         Car car = cr.findById(id).get();
-        car.setHp(Integer.parseInt(body.get("hp")));
-        car.setName(body.get("name"));
-        car.setTeamId((long) Integer.parseInt(body.get("teamId")));
+        if (cr.findById(id).isPresent()) {
+
+            if (body.get("name") != null) {
+                car.setName(body.get("name"));
+            }
+            if (body.get("engine") != null) {
+                car.setEngine(body.get("engine"));
+            }
+            if (body.get("hp") != null) {
+                car.setHp(Integer.parseInt(body.get("hp")));
+            }
+        }
+
+
         cr.save(car);
         return car;
     }
@@ -46,11 +64,11 @@ public class CarController {
     public Car create(@RequestBody Map<String, String> body) {
         Car car = new Car();
         String name = body.get("name");
-        int teamId = Integer.parseInt(body.get("teamId"));
+        String engine = body.get("engine");
         int hp = Integer.parseInt(body.get("hp"));
-        car.setTeamId((long) teamId);
         car.setName(name);
         car.setHp(hp);
+        car.setEngine(engine);
 
         return cr.save(car);
 
@@ -58,7 +76,7 @@ public class CarController {
 
 }
 
- */
+
 
 
 

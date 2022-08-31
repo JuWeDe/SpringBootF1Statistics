@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Team;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
+import java.util.Collections;
 import java.util.Map;
 
 @RestController()
@@ -15,28 +16,54 @@ public class TeamController {
     public TeamController(TeamRepository tr) {
         this.tr = tr;
     }
-    @GetMapping("/teams")
+
+    @GetMapping("/get_teams")
     Iterable<Team> getTeams() {
         return tr.findAll();
     }
 
-    @DeleteMapping("/team_to_delete/{id}")
+    @GetMapping("get_team_by_id/{id}")
+    Iterable<Team> getTeamById(@PathVariable Long id) {
+        return tr.findAllById(Collections.singleton(id));
+    }
+
+
+    @DeleteMapping("/remove_team_by_id/{id}")
     void deleteTeam(@PathVariable Long id) {
         tr.deleteById(id);
     }
 
-        @PutMapping("/team_to_update/{id}")
+    @PutMapping("/update_team_by_id/{id}")
     public Team updateTeam(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
         Team team = tr.findById(id).get();
-        team.setName(body.get("name"));
-        team.setPoints(Double.valueOf(body.get("points")));
-        team.setPointsInSeason(Double.valueOf(body.get("pointsInSeason")));
-        team.setCarId(Long.valueOf(body.get("carId")));
-        team.setTeamPrinciple(body.get("teamPrinciple"));
+        if (tr.findById(id).isPresent()) {
+            if (body.get("name") != null) {
+                team.setName(body.get("name"));
+            }
+            if (body.get("points") != null) {
+                team.setName(body.get("pints"));
+            }
+            if (body.get("pointsInSeason") != null) {
+
+                team.setPointsInSeason(Double.valueOf(body.get("pointsInSeason")));
+            }
+            if (body.get("carId") != null) {
+
+                team.setCarId(Long.valueOf(body.get("carId")));
+            }
+            if (body.get("teamPrinciple") != null) {
+
+                team.setTeamPrinciple(body.get("teamPrinciple"));
+            }
+
+        }
+
+
         tr.save(team);
         return team;
     }
-    @PostMapping("/team_to_add")
+
+    @PostMapping("/add_team")
     public Team create(@RequestBody Map<String, String> body) {
         Team team = new Team();
         String name = body.get("name");
@@ -56,5 +83,6 @@ public class TeamController {
     }
 
 
-
 }
+
+
