@@ -20,18 +20,18 @@ public class CarController {
         this.tr = tr;
     }
 
-    @GetMapping("get_car_by_id/{id}")
+    @GetMapping("car/{id}")
     Iterable<Car> getCarById(@PathVariable Long id) {
         return cr.findAllById(Collections.singleton(id));
     }
 
-    @GetMapping("/get_cars")
+    @GetMapping("/car")
     Iterable<Car> getCars() {
         return cr.findAll();
     }
 
 
-    @DeleteMapping("/remove_car_by_id/{id}")
+    @DeleteMapping("/car/{id}")
     void deleteCar(@PathVariable Long id) {
         Car car = cr.findById(id).get();
         if (cr.findById(id).isPresent())
@@ -41,7 +41,7 @@ public class CarController {
 
     }
 
-    @PutMapping("/update_car/{id}")
+    @PutMapping("/car/{id}")
     public Car updateCar(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
         Car car = cr.findById(id).get();
@@ -63,7 +63,7 @@ public class CarController {
         return car;
     }
 
-    @PostMapping("/add_car")
+    @PostMapping("/car")
     public Car create(@RequestBody Map<String, String> body) {
         Car car = new Car();
         String name = body.get("name");

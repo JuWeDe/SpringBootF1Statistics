@@ -16,18 +16,18 @@ public class RacerController {
         this.rp = rp;
     }
 
-    @GetMapping("/get_racers")
+    @GetMapping("/racer")
     Iterable<Racer> getRacers() {
         return rp.findAll();
     }
 
-    @GetMapping("/get_racer_by_id/{id}")
+    @GetMapping("/racer/{id}")
     Iterable<Racer> getRacerById(@PathVariable Long id) {
         return rp.findAllById(Collections.singleton(id));
     }
 
 
-    @DeleteMapping("/remove_racer_by_id/{id}")
+    @DeleteMapping("/racer/{id}")
     void deleteRacer(@PathVariable Long id) {
         Racer racer = rp.findById(id).get();
         if (rp.findById(id).isPresent()) {
@@ -35,7 +35,7 @@ public class RacerController {
         }
     }
 
-    @PutMapping("/update_racer/{id}")
+    @PutMapping("/racer/{id}")
     public Racer updateRacer(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
         Racer racer = rp.findById(id).get();
@@ -68,7 +68,7 @@ public class RacerController {
         return racer;
     }
 
-    @PostMapping("/add_racer")
+    @PostMapping("/racer")
     public Racer create(@RequestBody Map<String, String> body) {
         String name = body.get("name");
         int age = Integer.parseInt(body.get("age"));

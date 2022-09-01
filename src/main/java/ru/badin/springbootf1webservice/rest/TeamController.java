@@ -17,23 +17,23 @@ public class TeamController {
         this.tr = tr;
     }
 
-    @GetMapping("/get_teams")
+    @GetMapping("/team")
     Iterable<Team> getTeams() {
         return tr.findAll();
     }
 
-    @GetMapping("get_team_by_id/{id}")
+    @GetMapping("team/{id}")
     Iterable<Team> getTeamById(@PathVariable Long id) {
         return tr.findAllById(Collections.singleton(id));
     }
 
 
-    @DeleteMapping("/remove_team_by_id/{id}")
+    @DeleteMapping("/team/{id}")
     void deleteTeam(@PathVariable Long id) {
         tr.deleteById(id);
     }
 
-    @PutMapping("/update_team_by_id/{id}")
+    @PutMapping("/team/{id}")
     public Team updateTeam(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
         Team team = tr.findById(id).get();
         if (tr.findById(id).isPresent()) {
@@ -63,7 +63,7 @@ public class TeamController {
         return team;
     }
 
-    @PostMapping("/add_team")
+    @PostMapping("/team")
     public Team create(@RequestBody Map<String, String> body) {
         Team team = new Team();
         String name = body.get("name");
