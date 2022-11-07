@@ -12,31 +12,31 @@ import java.util.Map;
 @RestController
 public class CarController {
 
-    private final CarRepository cr;
-    private final TeamRepository tr;
+    private final CarRepository carRepository;
+    private final TeamRepository teamRepository;
 
-    public CarController(CarRepository cr, TeamRepository tr) {
-        this.cr = cr;
-        this.tr = tr;
+    public CarController(CarRepository carRepository, TeamRepository teamRepository) {
+        this.carRepository = carRepository;
+        this.teamRepository = teamRepository;
     }
 
     @GetMapping("car/{id}")
     Iterable<Car> getCarById(@PathVariable Long id) {
-        return cr.findAllById(Collections.singleton(id));
+        return carRepository.findAllById(Collections.singleton(id));
     }
 
     @GetMapping("/car")
     Iterable<Car> getCars() {
-        return cr.findAll();
+        return carRepository.findAll();
     }
 
 
     @DeleteMapping("/car/{id}")
     void deleteCar(@PathVariable Long id) {
-        Car car = cr.findById(id).get();
-        if (cr.findById(id).isPresent())
+        Car car = carRepository.findById(id).get();
+        if (carRepository.findById(id).isPresent())
         {
-            cr.delete(car);
+            carRepository.delete(car);
         }
 
     }
@@ -44,8 +44,8 @@ public class CarController {
     @PutMapping("/car/{id}")
     public Car updateCar(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
-        Car car = cr.findById(id).get();
-        if (cr.findById(id).isPresent()) {
+        Car car = carRepository.findById(id).get();
+        if (carRepository.findById(id).isPresent()) {
 
             if (body.get("name") != null) {
                 car.setName(body.get("name"));
@@ -59,7 +59,7 @@ public class CarController {
         }
 
 
-        cr.save(car);
+        carRepository.save(car);
         return car;
     }
 
@@ -74,7 +74,7 @@ public class CarController {
         car.setEngine(engine);
 
 
-        return cr.save(car);
+        return carRepository.save(car);
 
     }
 

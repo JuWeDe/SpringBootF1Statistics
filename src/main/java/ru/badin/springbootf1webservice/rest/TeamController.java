@@ -11,32 +11,32 @@ import java.util.Map;
 @RestController()
 public class TeamController {
 
-    private final TeamRepository tr;
+    private final TeamRepository teamRepository;
 
     public TeamController(TeamRepository tr) {
-        this.tr = tr;
+        this.teamRepository = tr;
     }
 
     @GetMapping("/team")
     Iterable<Team> getTeams() {
-        return tr.findAll();
+        return teamRepository.findAll();
     }
 
     @GetMapping("team/{id}")
     Iterable<Team> getTeamById(@PathVariable Long id) {
-        return tr.findAllById(Collections.singleton(id));
+        return teamRepository.findAllById(Collections.singleton(id));
     }
 
 
     @DeleteMapping("/team/{id}")
     void deleteTeam(@PathVariable Long id) {
-        tr.deleteById(id);
+        teamRepository.deleteById(id);
     }
 
     @PutMapping("/team/{id}")
     public Team updateTeam(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
-        Team team = tr.findById(id).get();
-        if (tr.findById(id).isPresent()) {
+        Team team = teamRepository.findById(id).get();
+        if (teamRepository.findById(id).isPresent()) {
             if (body.get("name") != null) {
                 team.setName(body.get("name"));
             }
@@ -59,7 +59,7 @@ public class TeamController {
         }
 
 
-        tr.save(team);
+        teamRepository.save(team);
         return team;
     }
 
@@ -78,7 +78,7 @@ public class TeamController {
         team.setCarId(carId);
         team.setTeamPrinciple(teamPrinciple);
 
-        return tr.save(team);
+        return teamRepository.save(team);
 
     }
 

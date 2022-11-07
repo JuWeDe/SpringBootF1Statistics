@@ -10,36 +10,36 @@ import java.util.Map;
 @RestController
 public class RacerController {
 
-    private final RacerRepository rp;
+    private final RacerRepository racerRepository;
 
     public RacerController(RacerRepository rp) {
-        this.rp = rp;
+        this.racerRepository = rp;
     }
 
     @GetMapping("/racer")
     Iterable<Racer> getRacers() {
-        return rp.findAll();
+        return racerRepository.findAll();
     }
 
     @GetMapping("/racer/{id}")
     Iterable<Racer> getRacerById(@PathVariable Long id) {
-        return rp.findAllById(Collections.singleton(id));
+        return racerRepository.findAllById(Collections.singleton(id));
     }
 
 
     @DeleteMapping("/racer/{id}")
     void deleteRacer(@PathVariable Long id) {
-        Racer racer = rp.findById(id).get();
-        if (rp.findById(id).isPresent()) {
-            rp.delete(racer);
+        Racer racer = racerRepository.findById(id).get();
+        if (racerRepository.findById(id).isPresent()) {
+            racerRepository.delete(racer);
         }
     }
 
     @PutMapping("/racer/{id}")
     public Racer updateRacer(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
-        Racer racer = rp.findById(id).get();
-        if (rp.findById(id).isPresent()) {
+        Racer racer = racerRepository.findById(id).get();
+        if (racerRepository.findById(id).isPresent()) {
             if (body.get("name") != null) {
                 racer.setName(body.get("name"));
 
@@ -64,7 +64,7 @@ public class RacerController {
             }
         }
 
-        rp.save(racer);
+        racerRepository.save(racer);
         return racer;
     }
 
@@ -86,7 +86,7 @@ public class RacerController {
         racer.setPointsInSeason(pointsInSeason);
         //racer.setTeamID(teamID);
 
-        return rp.save(racer);
+        return racerRepository.save(racer);
 
     }
 
