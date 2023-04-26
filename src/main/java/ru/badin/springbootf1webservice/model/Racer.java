@@ -2,7 +2,7 @@ package ru.badin.springbootf1webservice.model;
 
 import javax.persistence.*;
 import javax.persistence.GeneratedValue;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity(name = "racers")
 public class Racer {
@@ -13,7 +13,7 @@ public class Racer {
 
     @Column(unique = true)
     private String name;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private int wins;
     private int championships;
     private Double points;
@@ -22,6 +22,14 @@ public class Racer {
 
     @ManyToOne
     private Team team;
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
     public Team getTeam() {
         return team;
@@ -58,14 +66,6 @@ public class Racer {
         this.name = name;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public int getWins() {
         return wins;

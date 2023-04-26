@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ public class RacerController {
 
             }
             if (body.get("dateOfBirth") != null) {
-                racer.setDateOfBirth(Date.valueOf(body.get("dateOfBirth")));
+                racer.setDateOfBirth(LocalDate.parse(body.get("dateOfBirth")));
             }
             if (body.get("pointsInSeason") != null) {
                 racer.setPointsInSeason(Double.valueOf(body.get("pointsInSeason")));
@@ -72,7 +72,7 @@ public class RacerController {
     @PostMapping("/racer")
     public Racer create(@RequestBody Map<String, String> body) {
         String name = body.get("name");
-        Date birthDate = Date.valueOf((body.get("birthDate")));
+        LocalDate birthDate = LocalDate.parse(body.get("dateOfBirth"));
         int wins = Integer.parseInt(body.get("wins"));
         int championships = Integer.parseInt(body.get("championships"));
         Double points = Double.valueOf(body.get("points"));
@@ -85,13 +85,8 @@ public class RacerController {
         racer.setChampionships(championships);
         racer.setPoints(points);
         racer.setPointsInSeason(pointsInSeason);
-        //racer.setTeamID(teamID);
-
         return racerRepository.save(racer);
-
     }
-
-
 }
 
 
