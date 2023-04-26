@@ -2,6 +2,7 @@ package ru.badin.springbootf1webservice.model;
 
 import javax.persistence.*;
 import javax.persistence.GeneratedValue;
+import java.sql.Date;
 
 @Entity(name = "racers")
 public class Racer {
@@ -12,7 +13,7 @@ public class Racer {
 
     @Column(unique = true)
     private String name;
-    private int age;
+    private Date dateOfBirth;
     private int wins;
     private int championships;
     private Double points;
@@ -57,12 +58,13 @@ public class Racer {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public int getWins() {

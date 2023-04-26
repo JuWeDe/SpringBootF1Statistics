@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
 
+import java.sql.Date;
 import java.util.Collections;
 import java.util.Map;
 
@@ -44,8 +45,8 @@ public class RacerController {
                 racer.setName(body.get("name"));
 
             }
-            if (body.get("age") != null) {
-                racer.setAge(Integer.parseInt(body.get("age")));
+            if (body.get("dateOfBirth") != null) {
+                racer.setDateOfBirth(Date.valueOf(body.get("dateOfBirth")));
             }
             if (body.get("pointsInSeason") != null) {
                 racer.setPointsInSeason(Double.valueOf(body.get("pointsInSeason")));
@@ -71,7 +72,7 @@ public class RacerController {
     @PostMapping("/racer")
     public Racer create(@RequestBody Map<String, String> body) {
         String name = body.get("name");
-        int age = Integer.parseInt(body.get("age"));
+        Date birthDate = Date.valueOf((body.get("birthDate")));
         int wins = Integer.parseInt(body.get("wins"));
         int championships = Integer.parseInt(body.get("championships"));
         Double points = Double.valueOf(body.get("points"));
@@ -79,7 +80,7 @@ public class RacerController {
         int teamID = Integer.parseInt(body.get("teamID"));
         Racer racer = new Racer();
         racer.setName(name);
-        racer.setAge(age);
+        racer.setDateOfBirth(birthDate);
         racer.setWins(wins);
         racer.setChampionships(championships);
         racer.setPoints(points);
