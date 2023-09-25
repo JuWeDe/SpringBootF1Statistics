@@ -1,51 +1,51 @@
 package ru.badin.springbootf1webservice.rest;
 
+
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.model.Car;
-
 import ru.badin.springbootf1webservice.repostory.CarRepository;
-import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
-import java.util.Collections;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/cars")
 public class CarController {
+    private final CarRepository carService;
 
-    private final CarRepository carRepository;
-    private final TeamRepository teamRepository;
-
-    public CarController(CarRepository carRepository, TeamRepository teamRepository) {
-        this.carRepository = carRepository;
-        this.teamRepository = teamRepository;
+    public CarController(CarRepository carService) {
+        this.carService = carService;
     }
 
-    @GetMapping("car/{id}")
-    Iterable<Car> getCarById(@PathVariable Long id) {
-        return carRepository.findAllById(Collections.singleton(id));
+    @GetMapping
+    public Iterable<Car> getAllCars() {
+        return carService.findAll();
     }
 
-    @GetMapping("/car")
-    Iterable<Car> getCars() {
-        return carRepository.findAll();
+    @GetMapping("/{id}")
+    public Car getCarById(@PathVariable Long id) {
+        return carService.findById(id).get();
     }
 
+    @PostMapping
+    public Car createCar(@RequestBody Map<String, String> body) {
+        Car car = new Car();
+        String name = body.get("name");
+        String engine = body.get("engine");
+        int hp = Integer.parseInt(body.get("hp"));
+        car.setName(name);
+        car.setHp(hp);
+        car.setEngine(engine);
 
-    @DeleteMapping("/car/{id}")
-    void deleteCar(@PathVariable Long id) {
-        Car car = carRepository.findById(id).get();
-        if (carRepository.findById(id).isPresent())
-        {
-            carRepository.delete(car);
-        }
+
+        return carService.save(car);
 
     }
 
     @PutMapping("/car/{id}")
     public Car updateCar(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
-        Car car = carRepository.findById(id).get();
-        if (carRepository.findById(id).isPresent()) {
+        Car car = carService.findById(id).get();
+        if (carService.findById(id).isPresent()) {
 
             if (body.get("name") != null) {
                 car.setName(body.get("name"));
@@ -59,28 +59,12 @@ public class CarController {
         }
 
 
-        carRepository.save(car);
+        carService.save(car);
         return car;
     }
 
-    @PostMapping("/car")
-    public Car create(@RequestBody Map<String, String> body) {
-        Car car = new Car();
-        String name = body.get("name");
-        String engine = body.get("engine");
-        int hp = Integer.parseInt(body.get("hp"));
-        car.setName(name);
-        car.setHp(hp);
-        car.setEngine(engine);
-
-
-        return carRepository.save(car);
-
+    @DeleteMapping("/{id}")
+    public void deleteCar(@PathVariable Long id) {
+        carService.deleteById(id);
     }
-
 }
-
-
-
-
-
