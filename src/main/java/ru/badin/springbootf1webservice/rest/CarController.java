@@ -72,12 +72,7 @@ public class CarController {
         return carService.createCar(car);
 
     }
-//    @PostMapping
-//    public Car createCar(@RequestBody Car car) {
-//        return carService.save(car);
-//    }
-
-    @PutMapping("/car/{id}")
+    @PutMapping("/{id}")
     public Car updateCar(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
         Car car = carService.getCarById(id);
@@ -96,20 +91,6 @@ public class CarController {
         carService.updateCar(id, car);
         return car;
     }
-//    No services
-//    @PutMapping("/{id}")
-//    public Car updateCar(@PathVariable Long id, @RequestBody Car updatedCar) {
-//        Car existingCar = carService.findById(id).orElse(null);
-//        if (existingCar != null) {
-//            existingCar.setName(updatedCar.getName());
-//            existingCar.setEngine(updatedCar.getEngine());
-//            existingCar.setHp(updatedCar.getHp());
-//            existingCar.setTeam(updatedCar.getTeam());
-//            return carService.save(existingCar);
-//        }
-//        return null;
-//    }
-
     @DeleteMapping("/{id}")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);

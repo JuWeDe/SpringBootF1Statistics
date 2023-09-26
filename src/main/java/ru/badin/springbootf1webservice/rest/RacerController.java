@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.Services.RacerService;
+import ru.badin.springbootf1webservice.Services.TeamService;
 import ru.badin.springbootf1webservice.model.Racer;
+import ru.badin.springbootf1webservice.model.Team;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +20,37 @@ public class RacerController {
 
     private static final int PAGE_SIZE = 10;
     private final RacerService racerService;
+    private final TeamService teamService;
 
-    public RacerController(RacerService racerService) {
+    public RacerController(RacerService racerService, TeamService teamService) {
         this.racerService = racerService;
+        this.teamService = teamService;
     }
 
+    @PostMapping
+    public Racer addRacer(@RequestBody Racer racer) {
+        return racerService.createRacer(racer);
+    }
+
+    @PutMapping("/{id}")
+    public Racer updateRacer(@PathVariable Long id, @RequestBody Racer updatedRacer) {
+        Racer racer = racerService.getRacerById(id);
+        if (racer != null) {
+            racer.setName(updatedRacer.getName());
+            racer.setDateOfBirth(updatedRacer.getDateOfBirth());
+            racer.setWins(updatedRacer.getWins());
+            racer.setChampionships(updatedRacer.getChampionships());
+            racer.setPoints(updatedRacer.getPoints());
+            racer.setPointsInSeason(updatedRacer.getPointsInSeason());
+            Team team = updatedRacer.getTeam();
+            if (team != null) {
+                team = teamService.getTeamById(team.getId());
+                racer.setTeam(team);
+            }
+            return racerService.updateRacer(id, racer);
+        }
+        return null;
+    }
     @GetMapping("/hal")
     public ResponseEntity<Map<String, Object>> getRacers(@RequestParam(defaultValue = "0") int index,
                                                        @RequestParam(defaultValue = "25") int count) {
@@ -60,15 +88,15 @@ public class RacerController {
         return racerService.getRacerById(id);
     }
 
-    @PostMapping
-    public Racer createRacer(@RequestBody Racer racer) {
-        return racerService.createRacer(racer);
-    }
+//    @PostMapping
+//    public Racer createRacer(@RequestBody Racer racer) {
+//        return racerService.createRacer(racer);
+//    }
 
-    @PutMapping("/{id}")
-    public Racer updateRacer(@PathVariable Long id, @RequestBody Racer racer) {
-        return racerService.updateRacer(id, racer);
-    }
+//    @PutMapping("/{id}")
+//    public Racer updateRacer(@PathVariable Long id, @RequestBody Racer racer) {
+//        return racerService.updateRacer(id, racer);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteRacer(@PathVariable Long id) {
