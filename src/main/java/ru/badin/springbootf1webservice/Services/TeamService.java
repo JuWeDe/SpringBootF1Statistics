@@ -1,5 +1,8 @@
 package ru.badin.springbootf1webservice.Services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.badin.springbootf1webservice.model.Team;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
@@ -14,6 +17,10 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
+    public Page<Team> getTeams(int index, int count) {
+        Pageable pageable = PageRequest.of(index, count);
+        return teamRepository.findAll(pageable);
+    }
     public List<Team> getAllTeams() {
         return teamRepository.findAll();
     }

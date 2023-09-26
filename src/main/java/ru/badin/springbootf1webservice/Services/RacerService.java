@@ -1,6 +1,9 @@
 package ru.badin.springbootf1webservice.Services;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
@@ -15,6 +18,10 @@ public class RacerService {
         this.racerRepository = racerRepository;
     }
 
+    public Page<Racer> getRacers(int index, int count){
+        Pageable pageable = PageRequest.of(index, count);
+        return racerRepository.findAll(pageable);
+    }
 
     public Racer createRacer(Racer racer) {
         return racerRepository.save(racer);
