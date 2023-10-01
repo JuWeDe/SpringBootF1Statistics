@@ -3,7 +3,6 @@ package ru.badin.springbootf1webservice.model;
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -29,7 +28,7 @@ public class Racer {
     private Double points;
 
     @OneToOne(mappedBy = "racer", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private Car car;
 
     @ManyToOne
