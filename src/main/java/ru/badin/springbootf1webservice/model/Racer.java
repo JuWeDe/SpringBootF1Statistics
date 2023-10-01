@@ -31,6 +31,7 @@ public class Racer {
     @JsonManagedReference
     private Car car;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "team_id")
     @JsonManagedReference
