@@ -39,6 +39,7 @@ public class CarController {
         response.put("count", carList.size());
         response.put("total", cars.getTotalElements());
         response.put("index", index);
+        response.put("self", "/cars/hal");
 
         if (index < total) {
             response.put("next", "/cars/hal?index=" + (index + count));

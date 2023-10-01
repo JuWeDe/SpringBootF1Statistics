@@ -1,10 +1,13 @@
 package ru.badin.springbootf1webservice.Services;
 
+import com.vaadin.flow.router.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.model.Team;
+import ru.badin.springbootf1webservice.repostory.RacerRepository;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
 import java.util.List;
@@ -12,10 +15,13 @@ import java.util.List;
 @Service
 public class TeamService {
     private final TeamRepository teamRepository;
+    private final RacerRepository racerRepository;
 
-    public TeamService(TeamRepository teamRepository) {
+    public TeamService(TeamRepository teamRepository, RacerRepository racerRepository) {
         this.teamRepository = teamRepository;
+        this.racerRepository = racerRepository;
     }
+
 
     public Page<Team> getTeams(int index, int count) {
         Pageable pageable = PageRequest.of(index, count);
@@ -40,7 +46,6 @@ public class TeamService {
             team.setPoints(updatedTeam.getPoints());
             team.setTeamPrinciple(updatedTeam.getTeamPrinciple());
             team.setRacers(updatedTeam.getRacers());
-            team.setCars(updatedTeam.getCars());
             return teamRepository.save(team);
         }
         return null;

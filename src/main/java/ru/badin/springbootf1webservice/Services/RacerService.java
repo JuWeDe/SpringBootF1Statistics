@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.badin.springbootf1webservice.Exceptions.RacerNotFoundException;
+import ru.badin.springbootf1webservice.model.Car;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
 
@@ -18,7 +20,29 @@ public class RacerService {
         this.racerRepository = racerRepository;
     }
 
-    public Page<Racer> getRacers(int index, int count){
+    public Racer updateRacer(Long id, Racer updateRacer) {
+        Racer racer = getRacerById(id);
+        if (racer != null) {
+            racer.setName(updateRacer.getName());
+            racer.setChampionships(updateRacer.getChampionships());
+            racer.setPoints(updateRacer.getPoints());
+            racer.setDateOfBirth(updateRacer.getDateOfBirth());
+            racer.setWins(updateRacer.getWins());
+            return racerRepository.save(racer);
+        }
+        return null;
+    }
+
+    public void updateRacerCar(Long racerId, Car newCar) throws RacerNotFoundException {
+        Racer racer = racerRepository.findById(racerId)
+                .orElseThrow(() -> new RacerNotFoundException("Racer not found: " + racerId));
+
+        racer.setCar(newCar);
+
+        racerRepository.save(racer);
+    }
+
+    public Page<Racer> getRacers(int index, int count) {
         Pageable pageable = PageRequest.of(index, count);
         return racerRepository.findAll(pageable);
     }
@@ -35,20 +59,6 @@ public class RacerService {
         return racerRepository.findAll();
     }
 
-    public Racer updateRacer(Long id, Racer updateRacer) {
-        Racer racer = getRacerById(id);
-        if (racer != null) {
-            racer.setName(updateRacer.getName());
-            racer.setTeam(updateRacer.getTeam());
-            racer.setChampionships(updateRacer.getChampionships());
-            racer.setPoints(updateRacer.getPoints());
-            racer.setDateOfBirth(updateRacer.getDateOfBirth());
-            racer.setPointsInSeason(updateRacer.getPointsInSeason());
-            racer.setWins(updateRacer.getWins());
-            return racerRepository.save(racer);
-        }
-        return null;
-    }
 
     public void deleteRacer(Long id) {
         Racer racer = getRacerById(id);

@@ -1,11 +1,12 @@
 package ru.badin.springbootf1webservice.model;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.persistence.GeneratedValue;
 import java.time.LocalDate;
 
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "racers")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Racer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +27,16 @@ public class Racer {
     private int wins;
     private int championships;
     private Double points;
-    private Double pointsInSeason;
+
+    @OneToOne(mappedBy = "racer", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Car car;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
+    @JsonManagedReference
     private Team team;
+
+
 }
 

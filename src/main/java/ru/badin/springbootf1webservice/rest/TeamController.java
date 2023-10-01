@@ -47,28 +47,6 @@ public class TeamController {
             team.setName(updatedTeam.getName());
             team.setPoints(updatedTeam.getPoints());
             team.setTeamPrinciple(updatedTeam.getTeamPrinciple());
-            List<Racer> racers = updatedTeam.getRacers();
-            if (racers != null) {
-                for (Racer racer : racers) {
-                    Racer existingRacer = racerService.getRacerById(racer.getId());
-                    if (existingRacer != null) {
-                        existingRacer.setTeam(team);
-                        racerService.updateRacer(existingRacer.getId(), existingRacer);
-                    }
-                }
-                team.setRacers(racers);
-            }
-            List<Car> cars = updatedTeam.getCars();
-            if (cars != null) {
-                for (Car car : cars) {
-                    Car existingCar = carService.getCarById(car.getId());
-                    if (existingCar != null) {
-                        existingCar.setTeam(team);
-                        carService.updateCar(existingCar.getId(), existingCar);
-                    }
-                }
-                team.setCars(cars);
-            }
             return teamService.updateTeam(id, team);
         }
         return null;
@@ -91,7 +69,7 @@ public class TeamController {
         response.put("count", teamList.size());
         response.put("total", teams.getTotalElements());
         response.put("index", index);
-
+        response.put("self", "/teams/hal");
         if (index < total) {
             response.put("next", "/teams/hal?index=" + (index + count));
             response.put("final", "/teams/hal?index=" + (total - 1) * count + "&count=" + count);

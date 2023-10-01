@@ -1,5 +1,8 @@
 package ru.badin.springbootf1webservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cars")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +25,7 @@ public class Car {
 
     private int hp;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "racer_id")
+    private Racer racer;
 }
