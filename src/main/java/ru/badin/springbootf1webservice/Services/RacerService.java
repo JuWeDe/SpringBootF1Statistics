@@ -37,7 +37,7 @@ public class RacerService {
         Racer racer = racerRepository.findById(racerId)
                 .orElseThrow(() -> new RacerNotFoundException("Racer not found: " + racerId));
 
-        racer.setCar(newCar);
+//        racer.setCar(newCar);
 
         racerRepository.save(racer);
     }

@@ -1,6 +1,9 @@
 package ru.badin.springbootf1webservice.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,10 +29,6 @@ public class Racer {
     private int wins;
     private int championships;
     private Double points;
-
-    @OneToOne(mappedBy = "racer", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Car car;
 
     @JsonIgnore
     @ManyToOne

@@ -27,7 +27,5 @@ public class Car {
     private int carNumber;
 
     @OneToOne
-    @JoinColumn(name = "racer_id")
-    @JsonBackReference
     private Racer racer;
 }
