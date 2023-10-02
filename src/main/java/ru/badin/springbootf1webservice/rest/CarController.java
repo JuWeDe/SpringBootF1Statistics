@@ -65,7 +65,9 @@ public class CarController {
         String name = body.get("name");
         String engine = body.get("engine");
         int hp = Integer.parseInt(body.get("hp"));
+        int carNumber = Integer.parseInt(body.get("carNumber"));
         car.setName(name);
+        car.setCarNumber(carNumber);
         car.setHp(hp);
         car.setEngine(engine);
 

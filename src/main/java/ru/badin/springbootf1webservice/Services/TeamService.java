@@ -22,6 +22,12 @@ public class TeamService {
         this.racerRepository = racerRepository;
     }
 
+    public Team addRacerToTeam(Long teamId, Racer racer) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new NotFoundException("Team not found"));
+        racer.setTeam(team);
+        racerRepository.save(racer);
+        return team;
+    }
 
     public Page<Team> getTeams(int index, int count) {
         Pageable pageable = PageRequest.of(index, count);

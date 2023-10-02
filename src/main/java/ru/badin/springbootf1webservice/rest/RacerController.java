@@ -42,6 +42,11 @@ public class RacerController {
             racer.setWins(updatedRacer.getWins());
             racer.setChampionships(updatedRacer.getChampionships());
             racer.setPoints(updatedRacer.getPoints());
+            Team team = updatedRacer.getTeam();
+            if (team != null) {
+                team = teamService.getTeamById(team.getId());
+                racer.setTeam(team);
+            }
             return racerService.updateRacer(id, racer);
         }
         return null;

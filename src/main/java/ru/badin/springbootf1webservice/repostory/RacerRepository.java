@@ -7,7 +7,6 @@ import ru.badin.springbootf1webservice.model.Racer;
 
 @Repository
 public interface RacerRepository extends JpaRepository<Racer, Long> {
-
     // Используем магию! ¯\_(ツ)_/¯
 
 }

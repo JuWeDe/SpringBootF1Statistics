@@ -24,6 +24,7 @@ public class Car {
     private String engine;
 
     private int hp;
+    private int carNumber;
 
     @OneToOne
     @JoinColumn(name = "racer_id")
