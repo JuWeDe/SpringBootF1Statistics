@@ -25,7 +25,8 @@ public class Car {
 
     private int hp;
     private int carNumber;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    @OneToOne
-    private Racer racer;
 }

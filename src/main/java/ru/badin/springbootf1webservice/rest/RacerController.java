@@ -27,11 +27,12 @@ public class RacerController {
         this.teamService = teamService;
     }
 
-
     @PostMapping
-    public Racer addRacer(@RequestBody Racer racer) {
-        return racerService.createRacer(racer);
+    public ResponseEntity<Racer> createRacer(@RequestBody Racer racer) {
+        Racer createdRacer = racerService.createRacer(racer);
+        return ResponseEntity.ok(createdRacer);
     }
+
 
     @PutMapping("/{id}")
     public Racer updateRacer(@PathVariable Long id, @RequestBody Racer updatedRacer) {
@@ -42,11 +43,6 @@ public class RacerController {
             racer.setWins(updatedRacer.getWins());
             racer.setChampionships(updatedRacer.getChampionships());
             racer.setPoints(updatedRacer.getPoints());
-            Team team = updatedRacer.getTeam();
-            if (team != null) {
-                team = teamService.getTeamById(team.getId());
-                racer.setTeam(team);
-            }
             return racerService.updateRacer(id, racer);
         }
         return null;

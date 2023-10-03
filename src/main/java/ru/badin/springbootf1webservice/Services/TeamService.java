@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.model.Team;
+import ru.badin.springbootf1webservice.repostory.CarRepository;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
@@ -22,12 +23,6 @@ public class TeamService {
         this.racerRepository = racerRepository;
     }
 
-    public Team addRacerToTeam(Long teamId, Racer racer) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() -> new NotFoundException("Team not found"));
-        racer.setTeam(team);
-        racerRepository.save(racer);
-        return team;
-    }
 
     public Page<Team> getTeams(int index, int count) {
         Pageable pageable = PageRequest.of(index, count);
@@ -51,7 +46,6 @@ public class TeamService {
             team.setName(updatedTeam.getName());
             team.setPoints(updatedTeam.getPoints());
             team.setTeamPrinciple(updatedTeam.getTeamPrinciple());
-            team.setRacers(updatedTeam.getRacers());
             return teamRepository.save(team);
         }
         return null;

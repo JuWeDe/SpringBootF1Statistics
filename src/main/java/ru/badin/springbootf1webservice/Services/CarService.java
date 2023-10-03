@@ -49,7 +49,6 @@ public class CarService {
             car.setName(updatedCar.getName());
             car.setEngine(updatedCar.getEngine());
             car.setHp(updatedCar.getHp());
-            car.setRacer(updatedCar.getRacer());
             carRepository.save(car);
         }
     }

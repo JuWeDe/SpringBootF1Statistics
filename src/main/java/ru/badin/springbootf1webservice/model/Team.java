@@ -25,8 +25,7 @@ public class Team {
     private Double points;
     private String teamPrinciple;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Racer> racers;
+//    @OneToMany(cascade = CascadeType.MERGE)
+//    private List<Racer> racers;
 
 }

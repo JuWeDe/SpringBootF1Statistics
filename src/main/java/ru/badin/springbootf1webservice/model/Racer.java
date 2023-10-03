@@ -31,10 +31,14 @@ public class Racer {
     private Double points;
 
     @JsonIgnore
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "car_id")
+    private Car car;
+
     @ManyToOne
     @JoinColumn(name = "team_id")
-    @JsonManagedReference
     private Team team;
+
 
 
 }
