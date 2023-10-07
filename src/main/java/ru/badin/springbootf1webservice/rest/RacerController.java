@@ -34,6 +34,17 @@ public class RacerController {
     }
 
 
+//    @PutMapping("/{racerId}/car/{carId}")
+//    public ResponseEntity<Racer> assignCarToRacer(@PathVariable Long racerId, @PathVariable Long carId) {
+//        Racer updatedRacer = racerService.assignCarToRacer(racerId, carId);
+//        return ResponseEntity.ok(updatedRacer);
+//    }
+
+    @PutMapping("/{racerId}/team/{teamId}")
+    public ResponseEntity<Racer> assignRacerToTeam(@PathVariable Long racerId, @PathVariable Long teamId) {
+        Racer updatedRacer = racerService.assignRacerToTeam(racerId, teamId);
+        return ResponseEntity.ok(updatedRacer);
+    }
     @PutMapping("/{id}")
     public Racer updateRacer(@PathVariable Long id, @RequestBody Racer updatedRacer) {
         Racer racer = racerService.getRacerById(id);
@@ -43,16 +54,16 @@ public class RacerController {
             racer.setWins(updatedRacer.getWins());
             racer.setChampionships(updatedRacer.getChampionships());
             racer.setPoints(updatedRacer.getPoints());
+            Team team = updatedRacer.getTeam();
+            if (team != null) {
+                team = teamService.getTeamById(team.getId());
+                racer.setTeam(team);
+            }
             return racerService.updateRacer(id, racer);
         }
         return null;
     }
 
-    @PutMapping("/racers/{racerId}/car")
-    public ResponseEntity<Void> updateRacerCar(@PathVariable Long racerId, @RequestBody Car newCar) throws RacerNotFoundException {
-        racerService.updateRacerCar(racerId, newCar);
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping("/hal")
     public ResponseEntity<Map<String, Object>> getRacers(@RequestParam(defaultValue = "0") int index,

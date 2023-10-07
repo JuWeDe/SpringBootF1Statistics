@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +26,7 @@ public class Team {
     private String name;
     private Double points;
     private String teamPrinciple;
-
-//    @OneToMany(cascade = CascadeType.MERGE)
-//    private List<Racer> racers;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Racer> racers;
 
 }

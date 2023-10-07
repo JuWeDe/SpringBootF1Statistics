@@ -40,6 +40,18 @@ public class TeamController {
            team.setPoints(points);
            return teamService.createTeam(team);
         }
+
+    @PostMapping("/{teamId}/addCar/{carId}")
+    public ResponseEntity<String> addCarToTeam(@PathVariable Long teamId, @PathVariable Long carId) {
+        teamService.addCarToTeam(teamId, carId);
+        return ResponseEntity.ok("Car added to team successfully");
+    }
+
+    @PostMapping("/{teamId}/addRacer/{racerId}")
+    public ResponseEntity<String> addRacerToTeam(@PathVariable Long teamId, @PathVariable Long racerId) {
+        teamService.addRacerToTeam(teamId, racerId);
+        return ResponseEntity.ok("Racer added to team successfully");
+    }
     @PutMapping("/{id}")
     public Team updateTeam(@PathVariable Long id, @RequestBody Team updatedTeam) {
         Team team = teamService.getTeamById(id);
