@@ -2,17 +2,27 @@ package ru.badin.springbootf1webservice.rest;
 
 
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.badin.springbootf1webservice.HAL.HAL;
 import ru.badin.springbootf1webservice.Services.CarService;
 import ru.badin.springbootf1webservice.model.Car;
+import ru.badin.springbootf1webservice.model.Racer;
 
+import java.net.URI;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
-@RequestMapping("/cars")
+@RequestMapping("/api/cars")
 public class CarController {
     private static final int PAGE_SIZE = 10;
     private final CarService carService;
@@ -28,36 +38,32 @@ public class CarController {
 
 
     @GetMapping("/hal")
-    public ResponseEntity<Map<String, Object>> getCars(@RequestParam(defaultValue = "0") int index,
-                                                       @RequestParam(defaultValue = "25") int count) {
-        Page<Car> cars = carService.getCars(index, count);
-
-        List<Car> carList = cars.getContent();
-        Map<String, Object> response = new HashMap<>();
-        int total = cars.getTotalPages();
-        response.put("items", carList);
-        response.put("count", carList.size());
-        response.put("total", cars.getTotalElements());
-        response.put("index", index);
-        response.put("self", "/cars/hal");
-
-        if (index < total) {
-            response.put("next", "/cars/hal?index=" + (index + count));
-            response.put("final", "/cars/hal?index=" + (total - (total % count)) + "&count=" + count);
-        }
-
-        if (index > 0) {
-            response.put("prev", "/cars/hal?index=" + (index - count));
-            response.put("first", "/cars/hal?index=0");
-        }
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, Object>> getAllCarsWithHAL(@RequestParam(defaultValue = "0") int index, @RequestParam(defaultValue = "10") int count) {
+        return ResponseEntity.ok(carService.getAllCarsWithHAL(index, count));
     }
 
     @GetMapping("/{id}")
-    public Car getCarById(@PathVariable Long id) {
-        return carService.getCarById(id);
+    public ResponseEntity<Map<String, Object>> getCarById(@PathVariable Long id) {
+        Car car = carService.getCarById(id);
+
+        if (car == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Map<String, Object> responseBody = new LinkedHashMap<>();
+        responseBody.put("id", car.getId());
+        responseBody.put("name", car.getName());
+        responseBody.put("carNumber", car.getCarNumber());
+        responseBody.put("engine", car.getEngine());
+        responseBody.put("hp", car.getHp());
+
+
+        responseBody.put("update", HAL.addHypermediaLink("/api/cars/" + car.getId(), "update", "PUT", "Update car"));
+        responseBody.put("delete", HAL.addHypermediaLink("/api/cars/" + car.getId(), "delete", "DELETE", "Delete car"));
+
+        return ResponseEntity.ok(responseBody);
     }
+
 
     @PostMapping
     public Car createCar(@RequestBody Map<String, String> body) {
@@ -75,6 +81,7 @@ public class CarController {
         return carService.createCar(car);
 
     }
+
     @PutMapping("/{id}")
     public Car updateCar(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
 
@@ -94,6 +101,7 @@ public class CarController {
         carService.updateCar(id, car);
         return car;
     }
+
     @DeleteMapping("/{id}")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);

@@ -2,11 +2,8 @@ package ru.badin.springbootf1webservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "racers")
+@Getter
+@Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Racer {
     @Id
@@ -28,7 +27,7 @@ public class Racer {
     private LocalDate dateOfBirth;
     private int wins;
     private int championships;
-    private Double points;
+    private float points;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.MERGE)
@@ -36,9 +35,9 @@ public class Racer {
     private Car car;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "team_id")
     private Team team;
-
 
 
 }

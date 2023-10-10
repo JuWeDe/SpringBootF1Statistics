@@ -1,41 +1,36 @@
-type Car {
-    id: ID!
-    name: String
-    engine: String
-    hp: Int
-    carNumber: Int
-    racer: Racer
-}
-
-type Racer {
-    id: ID!
-    name: String
-    dateOfBirth: LocalDate
-    wins: Int
-    championships: Int
-    points: Float
-    car: Car
-    team: Team
-}
-
 type Team {
     id: ID!
-    name: String
-    points: Float
-    teamPrinciple: String
-    racers: [Racer]
-}
-
-type Query {
-    getCars: [Car]
-    getRacers: [Racer]
-    getTeams: [Team]
-}
-
-type Mutation {
-    createCar(name: String, engine: String, hp: Int, carNumber: Int): Car
-    createRacer(name: String, dateOfBirth: LocalDate, wins: Int, championships: Int, points: Float): Racer
-    createTeam(name: String, points: Float, teamPrinciple: String): Team
+    name: String!
+    points: Float!
+    teamPrinciple: String!
 }
 
 scalar LocalDate
+
+type Racer {
+    id: ID!
+    name: String!
+    dateOfBirth: LocalDate!
+    wins: Int!
+    championships: Int!
+    points: Float!
+    team: Team!
+}
+
+type Car {
+    id: ID!
+    name: String!
+    engine: String!
+    hp: Int!
+    carNumber: Int!
+    team: Team!
+}
+
+type Query {
+    allTeams: [Team]
+    teamById(id: ID!): Team
+    allRacers: [Racer]
+    racerById(id: ID!): Racer
+    allCars: [Car]
+    carById(id: ID!): Car
+}

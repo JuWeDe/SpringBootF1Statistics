@@ -4,17 +4,21 @@ package ru.badin.springbootf1webservice.Services;
 import com.vaadin.flow.router.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import java.util.*;
 import org.springframework.stereotype.Service;
+import ru.badin.springbootf1webservice.HAL.HAL;
 import ru.badin.springbootf1webservice.model.Car;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.model.Team;
+import java.util.stream.Collectors;
 import ru.badin.springbootf1webservice.repostory.CarRepository;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
 import javax.transaction.Transactional;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RacerService {
@@ -27,31 +31,61 @@ public class RacerService {
         this.carRepository = carRepository;
         this.teamRepository = teamRepository;
     }
+    public Page<Racer> getAllRacers(int index, int count) {
+        PageRequest pageable = PageRequest.of(index, count);
+        return racerRepository.findAll(pageable);
+    }
 
-//    public Racer assignCarToRacer(Long racerId, Long carId) {
-//        Racer racer = racerRepository.findById(racerId).orElseThrow(() -> new NotFoundException("Racer not found"));
-//        Car car = carRepository.findById(carId).orElseThrow(() -> new NotFoundException("Car not found"));
-//        racer.setCar(car);
-//        return racerRepository.save(racer);
-//    }
+    public Map<String, Object> getAllRacersWithHAL(int index, int count) {
+        Page<Racer> racerPage = getAllRacers(index, count);
+        String baseUrl = "/api/racers";
+        int pageNumber = racerPage.getNumber();
+        int pageSize = racerPage.getSize();
+        int total = racerPage.getTotalPages();
+
+        List<Map<String, Object>> embeddedRacers = racerPage.getContent().stream()
+                .map(this::createRacerResource)
+                .collect(Collectors.toList());
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("_embedded", Collections.singletonMap("racers", embeddedRacers));
+        response.put("_links", HAL.paginateAsDictionary(baseUrl, pageNumber, pageSize, total));
+
+        return response;
+    }
+
+    private Map<String, Object> createRacerResource(Racer racer) {
+        Map<String, Object> racerResource = new LinkedHashMap<>();
+        racerResource.put("_links", createRacerLinks(racer));
+        racerResource.put("id", racer.getId());
+        racerResource.put("name", racer.getName());
+        racerResource.put("dateOfBirth", racer.getDateOfBirth());
+        racerResource.put("wins", racer.getWins());
+        racerResource.put("championships", racer.getChampionships());
+        racerResource.put("points", racer.getPoints());
+        return racerResource;
+    }
+
+    private Map<String, Object> createRacerLinks(Racer racer) {
+        String baseUrl = "/api/racers";
+        Long racerId = racer.getId();
+        Map<String, Object> links = new LinkedHashMap<>();
+        links.put("self", Collections.singletonMap("href", baseUrl + "/" + racerId));
+        links.put("team", Collections.singletonMap("href", baseUrl + "/" + racerId + "/team"));
+        links.put("car", Collections.singletonMap("href", baseUrl + "/" + racerId + "/car"));
+        return links;
+    }
 
     @Transactional
     public void addCarToRacer(Long racerId, Long carId) {
-        Racer racer = racerRepository.findById(racerId)
-                .orElseThrow(() -> new NotFoundException("Racer not found with id: " + racerId));
+        Racer racer = racerRepository.findById(racerId).orElseThrow(() -> new NotFoundException("Racer not found with id: " + racerId));
 
-        Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new NotFoundException("Car not found with id: " + carId));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new NotFoundException("Car not found with id: " + carId));
 
         racer.setCar(car);
         racerRepository.save(racer);
     }
-    public Racer assignRacerToTeam(Long racerId, Long teamId) {
-        Racer racer = racerRepository.findById(racerId).orElseThrow(() -> new NotFoundException("Racer not found"));
-        Team team = teamRepository.findById(teamId).orElseThrow(() -> new NotFoundException("Team not found"));
-        racer.setTeam(team);
-        return racerRepository.save(racer);
-    }
+
     public Racer updateRacer(Long id, Racer updateRacer) {
         Racer racer = getRacerById(id);
         if (racer != null) {
@@ -66,10 +100,24 @@ public class RacerService {
     }
 
 
-    public Page<Racer> getRacers(int index, int count) {
-        Pageable pageable = PageRequest.of(index, count);
-        return racerRepository.findAll(pageable);
-    }
+//    public Page<Racer> getAllRacers(int index, int count) {
+//        PageRequest pageable = PageRequest.of(index, count);
+//        return racerRepository.findAll(pageable);
+//    }
+//
+//    public Map<String, Object> getAllRacersWithHAL(int index, int count) {
+//        Page<Racer> racerPage = getAllRacers(index, count);
+//        String baseUrl = "/api/racers";
+//        int pageNumber = racerPage.getNumber();
+//        int pageSize = racerPage.getSize();
+//        int total = racerPage.getTotalPages();
+//
+//        Map<String, Object> response = new LinkedHashMap<>();
+//        response.put("_embedded", Collections.singletonMap("racers", racerPage.getContent()));
+//        response.put("_links", HAL.paginateAsDictionary(baseUrl, pageNumber, pageSize, total));
+//
+//        return response;
+//    }
 
     public Racer createRacer(Racer racer) {
         return racerRepository.save(racer);
@@ -86,8 +134,7 @@ public class RacerService {
 
     @Transactional
     public void deleteRacer(Long racerId) {
-        Racer racer = racerRepository.findById(racerId)
-                .orElseThrow(() -> new NotFoundException("Racer not found with id: " + racerId));
+        Racer racer = racerRepository.findById(racerId).orElseThrow(() -> new NotFoundException("Racer not found with id: " + racerId));
 
         if (racer.getCar() != null) {
             Car car = racer.getCar();
