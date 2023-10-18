@@ -30,6 +30,7 @@ public class TeamController {
         this.racerService = racerService;
         this.carService = carService;
     }
+
     @PostMapping
     public ResponseEntity<Team> createTeam(@RequestBody Team team) {
         Team savedTeam = teamService.createTeam(team);
@@ -66,7 +67,7 @@ public class TeamController {
     public ResponseEntity<Map<String, Object>> getAllTeamsWithHAL(@RequestParam(defaultValue = "0") int index, @RequestParam(defaultValue = "10") int count) {
         Map<String, Object> responseBody = teamService.getAllTeamsWithHAL(index, count);
 
-            responseBody.put("create", HAL.addHypermediaLink("/teams", "create", "POST", "Create a new team"));
+        responseBody.put("create", HAL.addHypermediaLink("/teams", "create", "POST", "Create a new team"));
 
         return ResponseEntity.ok(responseBody);
     }
@@ -95,6 +96,7 @@ public class TeamController {
 
         return ResponseEntity.ok(responseBody);
     }
+
     @DeleteMapping("/{id}")
     public void deleteTeam(@PathVariable Long id) {
         teamService.deleteTeam(id);

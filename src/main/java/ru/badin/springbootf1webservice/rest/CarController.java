@@ -1,25 +1,15 @@
 package ru.badin.springbootf1webservice.rest;
 
 
-import org.springframework.data.domain.Page;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.HAL.HAL;
 import ru.badin.springbootf1webservice.Services.CarService;
 import ru.badin.springbootf1webservice.model.Car;
-import ru.badin.springbootf1webservice.model.Racer;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/cars")

@@ -13,10 +13,7 @@ import ru.badin.springbootf1webservice.repostory.RacerRepository;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,5 +123,9 @@ public class TeamService {
         if (team != null) {
             teamRepository.delete(team);
         }
+        if (team.getRacers() != null) {
+            team.setRacers(null);
+        }
+
     }
 }

@@ -23,6 +23,7 @@ public class RacerController {
     public ResponseEntity<Map<String, Object>> getAllRacersWithHAL(@RequestParam(defaultValue = "0") int index, @RequestParam(defaultValue = "10") int count) {
         return ResponseEntity.ok(racerService.getAllRacersWithHAL(index, count));
     }
+
     public RacerController(RacerService racerService, TeamService teamService) {
         this.racerService = racerService;
         this.teamService = teamService;

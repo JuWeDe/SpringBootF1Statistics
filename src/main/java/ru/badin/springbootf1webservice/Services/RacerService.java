@@ -100,25 +100,6 @@ public class RacerService {
     }
 
 
-//    public Page<Racer> getAllRacers(int index, int count) {
-//        PageRequest pageable = PageRequest.of(index, count);
-//        return racerRepository.findAll(pageable);
-//    }
-//
-//    public Map<String, Object> getAllRacersWithHAL(int index, int count) {
-//        Page<Racer> racerPage = getAllRacers(index, count);
-//        String baseUrl = "/api/racers";
-//        int pageNumber = racerPage.getNumber();
-//        int pageSize = racerPage.getSize();
-//        int total = racerPage.getTotalPages();
-//
-//        Map<String, Object> response = new LinkedHashMap<>();
-//        response.put("_embedded", Collections.singletonMap("racers", racerPage.getContent()));
-//        response.put("_links", HAL.paginateAsDictionary(baseUrl, pageNumber, pageSize, total));
-//
-//        return response;
-//    }
-
     public Racer createRacer(Racer racer) {
         return racerRepository.save(racer);
     }
