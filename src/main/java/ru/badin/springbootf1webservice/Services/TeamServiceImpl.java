@@ -117,6 +117,15 @@ public class TeamServiceImpl implements TeamService {
         return new PageImpl<>(teamDtos, pageable, teamPage.getTotalElements());
     }
 
+    public Team createTeam(String name, String teamPrinciple, float points) {
+        Team team = new Team();
+        team.setTeamPrinciple(teamPrinciple);
+        team.setName(name);
+        team.setPoints(points);
+        return teamRepository.save(team);
+
+    }
+
 //    @Override
 //    Hateoas realization
 //    public Map<String, Object> getAllTeamsHal(int index, int count) {

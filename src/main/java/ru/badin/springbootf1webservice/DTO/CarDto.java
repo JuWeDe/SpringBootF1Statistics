@@ -66,4 +66,14 @@ public class CarDto {
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
+    @Override
+    public String toString() {
+        return "CarDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", engine='" + engine + '\'' +
+                ", hp=" + hp +
+                ", carNumber=" + carNumber +
+                '}';
+    }
 }

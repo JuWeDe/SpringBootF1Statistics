@@ -9,7 +9,7 @@ import ru.badin.springbootf1webservice.DTO.RacerDto;
 import ru.badin.springbootf1webservice.HAL.HAL;
 import ru.badin.springbootf1webservice.model.Racer;
 import ru.badin.springbootf1webservice.repostory.RacerRepository;
-
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -120,4 +120,14 @@ public class RacerServiceImpl implements RacerService {
         return new PageImpl<>(racerDtos, pageable, racerPage.getTotalElements());
     }
 
+    public Racer createRacer(String name, LocalDate dateOfBirth, int wins, int championships, float points) {
+        RacerDto racer = new RacerDto();
+        racer.setChampionships(championships);
+        racer.setName(name);
+        racer.setPoints(points);
+        racer.setWins(wins);
+        racer.setDateOfBirth(dateOfBirth);
+        Racer input = mapToEntity(racer);
+        return racerRepository.save(input);
+    }
 }

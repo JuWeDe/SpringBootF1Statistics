@@ -118,4 +118,13 @@ public class CarServiceImpl implements CarService {
                 .collect(Collectors.toList());
         return new PageImpl<>(carDtos, pageable, carPage.getTotalElements());
     }
+
+    public Car createCar(String name, String engine, int hp, int carNumber) {
+        Car car = new Car();
+        car.setCarNumber(carNumber);
+        car.setHp(hp);
+        car.setEngine(engine);
+        car.setName(name);
+        return carRepository.save(car);
+    }
 }

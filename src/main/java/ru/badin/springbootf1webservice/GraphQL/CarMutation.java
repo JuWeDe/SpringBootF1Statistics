@@ -1,21 +1,20 @@
 //package ru.badin.springbootf1webservice.GraphQL;
 //
-//import org.springframework.beans.factory.annotation.Autowired;
+//import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 //import org.springframework.stereotype.Component;
-//import ru.badin.springbootf1webservice.Services.CarService;
-//import ru.badin.springbootf1webservice.model.Car;
+//import ru.badin.springbootf1webservice.Services.CarServiceImpl;
+//
 //
 //@Component
-//public class CarMutation {
-//
-//    private CarService carService;
-//
-//    public Car createCar(String name, String engine, int hp, int carNumber) {
-//        Car car = new Car();
-//        car.setName(name);
-//        car.setCarNumber(carNumber);
-//        car.setHp(hp);
-//        car.setEngine(engine);
-//        return carService.createCar(car);
+//public class CarMutation implements GraphQLMutationResolver {
+//    public CarMutation(CarServiceImpl carService) {
+//        this.carService = carService;
 //    }
+//
+//    private CarServiceImpl carService;
+//
+//    public void createCar(String name, String engine, int hp, int carNumber) {
+//        carService.createCar(name, engine, hp, carNumber);
+//    }
+//
 //}

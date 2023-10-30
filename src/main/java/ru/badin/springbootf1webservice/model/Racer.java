@@ -16,7 +16,26 @@ public class Racer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private String name;
+    private LocalDate dateOfBirth;
+    private int wins;
+    private int championships;
+    private float points;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "car_id")
+    private Car car;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    public String getFormattedDate() {
+        return getDateOfBirth().toString();
+    }
     public Racer() {
     }
 
@@ -95,26 +114,7 @@ public class Racer implements Serializable {
         this.team = team;
     }
 
-    @Column(unique = true)
-    private String name;
-    private LocalDate dateOfBirth;
-    private int wins;
-    private int championships;
-    private float points;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "car_id")
-    private Car car;
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-    public String getFormattedDate() {
-        return getDateOfBirth().toString();
-    }
 
 
 }

@@ -38,4 +38,13 @@ public class TeamDto {
         this.teamPrinciple = teamPrinciple;
     }
 
+    @Override
+    public String toString() {
+        return "TeamDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", teamPrinciple='" + teamPrinciple + '\'' +
+                ", points=" + points +
+                '}';
+    }
 }

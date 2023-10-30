@@ -1,17 +1,48 @@
-#type Car {
-#    id: ID
-#    name: String
-#    engine: String
-#    hp: Int
-#    carNumber: Int
-#}
-#
-#type Query {
-#    cars: [Car!]!
-#    car(id: ID): Car
-#
-#}
-#type Mutation {
-#    createCar(name: String!, engine: String!, hp: Int!, carNumber: String!): Car!
-#
-#}
+type Team {
+    id: ID!,
+    name: String,
+    points: Float,
+    teamPrinciple: String
+    racers: [Racer]!
+}
+
+type Racer {
+    id: ID!,
+    name: String,
+    dateOfBirth: String,
+    wins: Int,
+    championships: Int,
+    points: Float,
+    team: Team
+    car: Car
+}
+
+type Car {
+    id: ID!,
+    name: String,
+    engine: String,
+    hp: Int,
+    carNumber: Int,
+    team: Team
+}
+
+type Query {
+    cars: [Car!]!
+    car(id: ID): Car
+    racers: [Racer!]!
+    racer(id: ID): Racer
+    teams: [Team!]!
+    team(id: ID): Team
+}
+type Mutation {
+    createRacer(name: String!, dateOfBirth: String, wins: Int!, championships: Int!, points: Float!): Racer
+    createCar(name: String!, engine: String!, hp: Int, carNumber: Int): Car
+    createTeam(name: String!, teamPrinciple: String!, points: Float!): Team
+
+    #    updateTeam(id: ID!, name: String, teamPrinciple: String, points: Float): Team
+    #    deleteTeam(id: ID!): Boolean
+    #    updateRacer(id: ID!, name: String, dateOfBirth: String, wins: Int, championships: Int, points: Float): Racer
+    #    deleteRacer(id: ID!): Boolean
+    #    updateCar(id: ID!, name: String, engine: String, hp: Int, carNumber: Int, points: Float): Car
+    #    deleteCar(id: ID!): Boolean
+}

@@ -1,5 +1,6 @@
 package ru.badin.springbootf1webservice.rest;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,11 @@ import java.util.Map;
 @RequestMapping("/api/cars")
 public class CarController {
     private final CarServiceImpl carService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public CarController(CarServiceImpl carService) {
+    public CarController(CarServiceImpl carService, RabbitTemplate rabbitTemplate) {
         this.carService = carService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping("/hal")
@@ -32,6 +35,7 @@ public class CarController {
     @PostMapping
     public ResponseEntity<CarDto> createCar(@RequestBody CarDto carDTO) {
         carService.createCar(carDTO);
+        rabbitTemplate.convertAndSend("queueName", carDTO);
         return new ResponseEntity<>(carDTO, HttpStatus.CREATED);
     }
 

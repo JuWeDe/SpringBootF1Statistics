@@ -1,6 +1,7 @@
 package ru.badin.springbootf1webservice.rest;
 
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.Map;
 @RequestMapping("/api/teams")
 public class TeamController {
     private final TeamServiceImpl teamService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public TeamController(TeamServiceImpl teamService) {
+    public TeamController(TeamServiceImpl teamService, RabbitTemplate rabbitTemplate) {
         this.teamService = teamService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping("/hal")
@@ -33,6 +36,8 @@ public class TeamController {
     @PostMapping
     public ResponseEntity<TeamDto> createTeam(@RequestBody TeamDto teamDto) {
         teamService.createTeam(teamDto);
+//        message
+        rabbitTemplate.convertAndSend("queueName", teamDto);
         return new ResponseEntity<>(teamDto, HttpStatus.CREATED);
     }
 

@@ -78,4 +78,18 @@ public class RacerDto {
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
+
+    @Override
+    public String toString() {
+        return "RacerDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", wins='" + wins + '\'' +
+                ", championships='" + championships + '\'' +
+                ", points=" + points + '\'' +
+                ", carId='" + carId + '\'' +
+                ", teamId='" + teamId +
+                '}';
+    }
 }
