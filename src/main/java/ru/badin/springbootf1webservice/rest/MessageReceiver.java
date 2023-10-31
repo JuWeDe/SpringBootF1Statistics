@@ -11,8 +11,8 @@ public class MessageReceiver {
 
 
     @RabbitListener(queues = "queueName")
-    public void receiveRacerMessage(String racerDTO) {
-        System.out.println("\nReceived Racer Message: " + racerDTO + "\n");
+    public void receiveRacerMessage(RacerDto racerDTO) {
+        System.out.println("\nReceived Racer Message: " + racerDTO.toString() + "\n");
     }
 
     @RabbitListener(queues = "queueName")
