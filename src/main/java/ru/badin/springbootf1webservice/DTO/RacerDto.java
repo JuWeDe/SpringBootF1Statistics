@@ -82,8 +82,7 @@ public class RacerDto {
     @Override
     public String toString() {
         return "RacerDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                " name='" + name + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", wins='" + wins + '\'' +
                 ", championships='" + championships + '\'' +

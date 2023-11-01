@@ -69,8 +69,7 @@ public class CarDto {
     @Override
     public String toString() {
         return "CarDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                " name='" + name + '\'' +
                 ", engine='" + engine + '\'' +
                 ", hp=" + hp +
                 ", carNumber=" + carNumber +

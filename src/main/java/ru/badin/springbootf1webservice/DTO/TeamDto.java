@@ -41,8 +41,7 @@ public class TeamDto {
     @Override
     public String toString() {
         return "TeamDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                " name='" + name + '\'' +
                 ", teamPrinciple='" + teamPrinciple + '\'' +
                 ", points=" + points +
                 '}';
