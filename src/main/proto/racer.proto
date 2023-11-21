@@ -1,0 +1,18 @@
+syntax = "proto3";
+package ru.badin.springbootf1webservice.grpc;
+
+message Racer {
+  int64 id = 1;
+  string name = 2;
+  int32 wins = 3;
+  int32 championships = 4;
+  float points = 5;
+  int64 carId = 6;
+  int64 teamId = 7;
+}
+message Response {
+  string str = 1;
+}
+service RacerService {
+  rpc getNumber (Racer) returns (Response) {}
+}
