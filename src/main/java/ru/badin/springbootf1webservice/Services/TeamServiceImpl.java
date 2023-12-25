@@ -11,7 +11,6 @@ import ru.badin.springbootf1webservice.HAL.HAL;
 import ru.badin.springbootf1webservice.model.Team;
 import ru.badin.springbootf1webservice.repostory.TeamRepository;
 
-import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,13 +39,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void createTeam(@Valid TeamDto teamDto) {
+    public void createTeam(TeamDto teamDto) {
         Team team = mapToEntity(teamDto);
         teamRepository.save(team);
     }
 
     @Override
-    public void updateTeam(Long id, @Valid TeamDto teamDto) {
+    public void updateTeam(Long id, TeamDto teamDto) {
         Optional<Team> teamOptional = teamRepository.findById(id);
         if (teamOptional.isPresent()) {
             Team team = mapToEntity(teamDto);

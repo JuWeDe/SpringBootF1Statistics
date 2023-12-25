@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Автоспорт</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+
+        main {
+            margin: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            padding: 10px;
+            background-color: #eaeaea;
+            border: 1px solid #ff0000;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .notification {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>F1 stats</h1>
+</header>
+
+<div class="notification-container">
+</div>
+<main>
+    <h2>Welcome here!</h2>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</main>
+
+<footer>
+    &copy; 2023 F1 stats
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+<script>
+    var socket = new WebSocket('ws://localhost:8085/');
+    socket.onmessage = function (event) {
+        var message = JSON.parse(event.data);
+        showNotification(message);
+    };
+
+    function showNotification(message) {
+        var container = document.querySelector('.notification-container');
+
+        var notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+
+        container.appendChild(notification);
+
+        setTimeout(function () {
+            container.removeChild(notification);
+        }, 5000);
+    }
+</script>
+</body>
+</html>

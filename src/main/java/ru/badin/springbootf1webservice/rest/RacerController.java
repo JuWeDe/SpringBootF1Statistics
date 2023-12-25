@@ -4,6 +4,7 @@ package ru.badin.springbootf1webservice.rest;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import ru.badin.springbootf1webservice.DTO.RacerDto;
 import ru.badin.springbootf1webservice.Services.RacerServiceImpl;
@@ -16,10 +17,12 @@ import java.util.Map;
 public class RacerController {
     private final RacerServiceImpl racerService;
     private final RabbitTemplate rabbitTemplate;
+    private SimpMessagingTemplate messagingTemplate;
 
-    public RacerController(RacerServiceImpl racerService, RabbitTemplate rabbitTemplate) {
+    public RacerController(RacerServiceImpl racerService, RabbitTemplate rabbitTemplate, SimpMessagingTemplate messagingTemplate) {
         this.racerService = racerService;
         this.rabbitTemplate = rabbitTemplate;
+        this.messagingTemplate = messagingTemplate;
     }
 
 
@@ -37,6 +40,9 @@ public class RacerController {
     @PostMapping
     public ResponseEntity<RacerDto> createRacer(@RequestBody RacerDto racerDto) {
         racerService.createRacer(racerDto);
+        System.out.println("Sending message: " + racerDto.getName());
+        messagingTemplate.convertAndSend("/topic/racerCreated", "Новый гонщик создан: " + racerDto.getName());
+        System.out.println("Message: " + racerDto.getName() + " sent");
         rabbitTemplate.convertAndSend("queueName", racerDto);
         return new ResponseEntity<>(racerDto, HttpStatus.CREATED);
     }
